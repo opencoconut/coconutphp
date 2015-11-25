@@ -13,7 +13,7 @@ Edit `composer.json`:
 ```javascript
 {
     "require": {
-        "coconut/coconutphp": "2.*"
+        "opencoconut/coconut": "2.*"
     }
 }
 ```

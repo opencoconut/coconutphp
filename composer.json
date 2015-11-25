@@ -1,5 +1,5 @@
 {
-    "name": "coconut/coconutphp",
+    "name": "opencoconut/coconut",
     "type": "library",
     "version": "2.2.0",
     "description": "Coconut is a Cloud Video Encoding Service built for developers",
