@@ -47,7 +47,7 @@ Here is the PHP code to submit the config file:
 
 $job = Coconut_Job::create(array(
   'api_key' => 'k-api-key',
-  'conf' => 'heywatch.conf',
+  'conf' => 'coconut.conf',
   'source' => 'http://yoursite.com/media/video.mp4',
   'vars' => array('vid' => 1234)
 ));
