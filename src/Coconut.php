@@ -3,7 +3,7 @@
 class Coconut {
 
   const COCONUT_URL = "https://api.coconut.co";
-  const USER_AGENT = "Coconut/2.2.0 (PHP)";
+  const USER_AGENT = "Coconut/2.2.1 (PHP)";
 
   public static function submit($config_content, $api_key=null) {
     $coconut_url = self::COCONUT_URL;
@@ -33,34 +33,43 @@ class Coconut {
   }
 
   public static function config($options=array()) {
-    $conf_file = $options['conf'];
-    if($conf_file != null) {
-      $conf = explode("\n", trim(file_get_contents($conf_file)));
-    } else {
-      $conf = array();
-    }
-
-    $vars = $options['vars'];
-    if($vars != null) {
-      foreach ($vars as $name => $value) {
-        $conf[] = 'var ' . $name . ' = ' . $value;
+    $conf = array();
+    if(isset($options['conf'])) {
+      $conf_file = $options['conf'];
+      if($conf_file != null) {
+        $conf = explode("\n", trim(file_get_contents($conf_file)));
       }
     }
 
-    $source = $options['source'];
-    if($source != null) {
-      $conf[] = 'set source = ' . $source;
+    if(isset($options['vars'])) {
+      $vars = $options['vars'];
+      if($vars != null) {
+        foreach ($vars as $name => $value) {
+          $conf[] = 'var ' . $name . ' = ' . $value;
+        }
+      }
     }
 
-    $webhook = $options['webhook'];
-    if($webhook != null) {
-      $conf[] = 'set webhook = ' . $webhook;
+    if(isset($options['source'])) {
+      $source = $options['source'];
+      if($source != null) {
+        $conf[] = 'set source = ' . $source;
+      }
     }
 
-    $outputs = $options['outputs'];
-    if($outputs != null) {
-      foreach ($outputs as $format => $cdn) {
-        $conf[] = '-> ' . $format . ' = ' . $cdn;
+    if(isset($options['webhook'])) {
+      $webhook = $options['webhook'];
+      if($webhook != null) {
+        $conf[] = 'set webhook = ' . $webhook;
+      }
+    }
+
+    if(isset($options['outputs'])) {
+      $outputs = $options['outputs'];
+      if($outputs != null) {
+        foreach ($outputs as $format => $cdn) {
+          $conf[] = '-> ' . $format . ' = ' . $cdn;
+        }
       }
     }
 
@@ -96,7 +105,12 @@ class Coconut {
 
 class Coconut_Job {
   public static function create($options=array()) {
-    return Coconut::submit(Coconut::config($options), $options['api_key']);
+    $api_key = null;
+    if(isset($options['api_key'])) {
+      $api_key = $options['api_key'];
+    }
+
+    return Coconut::submit(Coconut::config($options), $api_key);
   }
 }
 
