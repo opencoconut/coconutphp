@@ -3,7 +3,7 @@
 class Coconut {
 
   const COCONUT_URL = "https://api.coconut.co";
-  const USER_AGENT = "Coconut/2.2.1 (PHP)";
+  const USER_AGENT = "Coconut/2.2.2 (PHP)";
 
   public static function submit($config_content, $api_key=null) {
     $coconut_url = self::COCONUT_URL;
