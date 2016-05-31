@@ -37,7 +37,7 @@ set webhook = http://mysite.com/webhook/coconut?videoID=$vid
 
 -> mp4  = $s3/videos/video_$vid.mp4
 -> webm = $s3/videos/video_$vid.webm
--> jpg_300x = $s3/previews/thumbs_#num#.jpg, number=3
+-> jpg:300x = $s3/previews/thumbs_#num#.jpg, number=3
 ```
 
 Here is the PHP code to submit the config file:
@@ -77,7 +77,7 @@ $job = Coconut_Job::create(array(
   'outputs' => array(
     'mp4' => $s3 . '/videos/video_' . $vid . '.mp4',
     'webm' => $s3 . '/videos/video_' . $vid . '.webm',
-    'jpg_300x' => $s3 . '/previews/thumbs_#num#.jpg, number=3'
+    'jpg:300x' => $s3 . '/previews/thumbs_#num#.jpg, number=3'
   )
 ));
 
