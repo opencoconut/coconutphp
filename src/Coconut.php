@@ -1,5 +1,7 @@
 <?php
 
+namespace Coconut;
+
 class Coconut {
 
   const COCONUT_URL = "https://api.coconut.co";
@@ -9,7 +11,7 @@ class Coconut {
     $coconut_url = self::COCONUT_URL;
 
     if(!$api_key) {
-      $api_key = getenv("COCONUT_API_KEY");
+      $api_key = getenv("HEYWATCH_API_KEY");
     }
 
     if($url = getenv("COCONUT_URL"))
@@ -102,16 +104,3 @@ class Coconut {
     return join("\n", $new_conf);
   }
 }
-
-class Coconut_Job {
-  public static function create($options=array()) {
-    $api_key = null;
-    if(isset($options['api_key'])) {
-      $api_key = $options['api_key'];
-    }
-
-    return Coconut::submit(Coconut::config($options), $api_key);
-  }
-}
-
-?>
