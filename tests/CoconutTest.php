@@ -1,4 +1,7 @@
 <?php
+use Coconut\Coconut;
+use Coconut\Coconut_Job;
+
 class CoconutTest extends PHPUnit_Framework_TestCase {
 
   /*
