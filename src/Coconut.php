@@ -11,7 +11,7 @@ class Coconut {
     $coconut_url = self::COCONUT_URL;
 
     if(!$api_key) {
-      $api_key = getenv("HEYWATCH_API_KEY");
+      $api_key = getenv("COCONUT_API_KEY");
     }
 
     if($url = getenv("COCONUT_URL"))
