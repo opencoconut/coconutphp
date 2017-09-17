@@ -1,7 +1,7 @@
 {
     "name": "opencoconut/coconut",
     "type": "library",
-    "version": "2.2.2",
+    "version": "2.4.0",
     "description": "Coconut is a Cloud Video Encoding Service built for developers",
     "keywords": ["video", "encoding", "transcoding", "web service", "h264", "cloud"],
     "homepage": "http://coconut.co",
