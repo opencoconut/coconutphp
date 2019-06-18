@@ -17,7 +17,7 @@ class CoconutTest extends PHPUnit_Framework_TestCase {
     ));
 
     $job = Coconut::submit($config);
-    $this->assertEquals('ok', $job->{'status'});
+    $this->assertEquals('processing', $job->{'status'});
     $this->assertTrue($job->{'id'} > 0);
   }
 
@@ -111,7 +111,7 @@ class CoconutTest extends PHPUnit_Framework_TestCase {
       'vars' => array('vid' => 1234, 'user' => 5098)
     ));
 
-    $this->assertEquals('ok', $job->{'status'});
+    $this->assertEquals('processing', $job->{'status'});
     $this->assertTrue($job->{'id'} > 0);
 
     unlink('coconut.conf');
@@ -125,5 +125,51 @@ class CoconutTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals('error', $job->{'status'});
     $this->assertEquals('authentication_failed', $job->{'error_code'});
+  }
+
+  public function testGetJobInfo() {
+    $config = Coconut::config(array(
+      'source' => 'https://s3-eu-west-1.amazonaws.com/files.coconut.co/test.mp4',
+      'webhook' => 'http://mysite.com/webhook',
+      'outputs' => array('mp4' => 's3://a:s@bucket/video.mp4')
+    ));
+
+    $job = Coconut::submit($config);
+    $info = Coconut_Job::get($job->{"id"});
+
+    $this->assertEquals($info->{"id"}, $job->{"id"});
+  }
+
+  public function testGetNotFoundJobReturnsNull() {
+    $info = Coconut_Job::get(1000);
+    $this->assertNull($info);
+  }
+
+  public function testGetAllMetadata() {
+    $config = Coconut::config(array(
+      'source' => 'https://s3-eu-west-1.amazonaws.com/files.coconut.co/test.mp4',
+      'webhook' => 'http://mysite.com/webhook',
+      'outputs' => array('mp4' => 's3://a:s@bucket/video.mp4')
+    ));
+
+    $job = Coconut::submit($config);
+    sleep(4);
+
+    $metadata = Coconut_Job::getAllMetadata($job->{"id"});
+    $this->assertNotNull($metadata);
+  }
+
+  public function testGetMetadataForSource() {
+    $config = Coconut::config(array(
+      'source' => 'https://s3-eu-west-1.amazonaws.com/files.coconut.co/test.mp4',
+      'webhook' => 'http://mysite.com/webhook',
+      'outputs' => array('mp4' => 's3://a:s@bucket/video.mp4')
+    ));
+
+    $job = Coconut::submit($config);
+    sleep(4);
+
+    $metadata = Coconut_Job::getMetadataFor($job->{"id"}, 'source');
+    $this->assertNotNull($metadata);
   }
 }
