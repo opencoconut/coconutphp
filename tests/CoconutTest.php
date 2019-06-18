@@ -172,4 +172,26 @@ class CoconutTest extends PHPUnit_Framework_TestCase {
     $metadata = Coconut_Job::getMetadataFor($job->{"id"}, 'source');
     $this->assertNotNull($metadata);
   }
+
+  public function testSetAPIVersion() {
+    $config = Coconut::config(array(
+      'source' => 'https://s3-eu-west-1.amazonaws.com/files.coconut.co/test.mp4',
+      'webhook' => 'http://mysite.com/webhook?vid=$vid&user=$user',
+      'api_version' => 'beta',
+      'outputs' => array(
+        'mp4' => '$s3/vid.mp4',
+      )
+    ));
+
+    $generated = join("\n", array(
+      '',
+      'set api_version = beta',
+      'set source = https://s3-eu-west-1.amazonaws.com/files.coconut.co/test.mp4',
+      'set webhook = http://mysite.com/webhook?vid=$vid&user=$user',
+      '',
+      '-> mp4 = $s3/vid.mp4'
+    ));
+
+    $this->assertEquals($generated, $config);
+  }
 }

@@ -98,6 +98,13 @@ class Coconut {
       }
     }
 
+    if(isset($options['api_version'])) {
+      $api_version = $options['api_version'];
+      if($api_version != null) {
+        $conf[] = 'set api_version = ' . $api_version;
+      }
+    }
+
     if(isset($options['outputs'])) {
       $outputs = $options['outputs'];
       if($outputs != null) {
