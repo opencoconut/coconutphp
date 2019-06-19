@@ -84,6 +84,21 @@ $job = Coconut_Job::create(array(
 ?>
 ```
 
+Other example usage:
+
+```php
+<?php
+// Getting info about a job
+$job = Coconut_Job::get(18370773);
+
+// Retrieving metadata
+Coconut_Job::getAllMetadata(18370773);
+
+// Retrieving the source file metadata only
+Coconut_Job::getMetadataFor(18370773, 'source');
+?>
+```
+
 Note that you can use the environment variable `COCONUT_API_KEY` to set your API key.
 
 ## Contributing
