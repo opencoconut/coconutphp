@@ -52,7 +52,7 @@ $job = Coconut_Job::create(array(
   'vars' => array('vid' => 1234)
 ));
 
-if($job->{'status'} == 'ok') {
+if($job->{'status'} == 'processing') {
   echo $job->{'id'};
 } else {
   echo $job->{'error_code'};
