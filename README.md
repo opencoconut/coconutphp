@@ -45,7 +45,9 @@ Here is the PHP code to submit the config file:
 ```php
 <?php
 
-$job = Coconut_Job::create(array(
+require_once('vendor/autoload.php');
+
+$job = Coconut\Job::create(array(
   'api_key' => 'k-api-key',
   'conf' => 'coconut.conf',
   'source' => 'http://yoursite.com/media/video.mp4',
@@ -67,10 +69,12 @@ You can also create a job without a config file. To do that you will need to giv
 ```php
 <?php
 
+require_once('vendor/autoload.php');
+
 $vid = 1234;
 $s3 = 's3://accesskey:secretkey@mybucket';
 
-$job = Coconut_Job::create(array(
+$job = Coconut\Job::create(array(
   'api_key' => 'k-api-key',
   'source' => 'http://yoursite.com/media/video.mp4',
   'webhook' => 'http://mysite.com/webhook/coconut?videoId=' . $vid,
@@ -89,13 +93,13 @@ Other example usage:
 ```php
 <?php
 // Getting info about a job
-$job = Coconut_Job::get(18370773);
+$job = Coconut\Job::get(18370773);
 
 // Retrieving metadata
-Coconut_Job::getAllMetadata(18370773);
+Coconut\Job::getAllMetadata(18370773);
 
 // Retrieving the source file metadata only
-Coconut_Job::getMetadataFor(18370773, 'source');
+Coconut\Job::getMetadataFor(18370773, 'source');
 ?>
 ```
 
