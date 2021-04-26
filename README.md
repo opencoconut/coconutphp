@@ -1,6 +1,14 @@
-# PHP client library for encoding videos with Coconut
+# Coconut PHP Library
 
-## Install
+The Coconut PHP library provides access to the Coconut API for encoding videos, packaging media files into HLS and MPEG-Dash, generating thumbnails and GIF animation.
+
+This library is only compatible with the Coconut API v2.
+
+## Documentation
+
+See the [full documentation](https://docs.coconut.co).
+
+## Installation
 
 To install the Coconut PHP library, you need [composer](http://getcomposer.org) first:
 
@@ -13,7 +21,7 @@ Edit `composer.json`:
 ```javascript
 {
     "require": {
-        "opencoconut/coconut": "2.*"
+        "opencoconut/coconut": "3.*"
     }
 }
 ```
@@ -24,101 +32,71 @@ Install the depencies by executing `composer`:
 php composer.phar install
 ```
 
-## Submitting the job
+## Usage
 
-Use the [API Request Builder](https://app.coconut.co/job/new) to generate a config file that match your specific workflow.
-
-Example of `coconut.conf`:
-
-```ini
-var s3 = s3://accesskey:secretkey@mybucket
-
-set webhook = http://mysite.com/webhook/coconut?videoID=$vid
-
--> mp4  = $s3/videos/video_$vid.mp4
--> webm = $s3/videos/video_$vid.webm
--> jpg:300x = $s3/previews/thumbs_#num#.jpg, number=3
-```
-
-Here is the PHP code to submit the config file:
+The library needs you to set your API key which can be found in your [dashboard](https://app.coconut.co/api). Webhook URL and storage settings are optional but are very convenient because you set them only once.
 
 ```php
 <?php
 
 require_once('vendor/autoload.php');
 
-$job = Coconut\Job::create(array(
-  'api_key' => 'k-api-key',
-  'conf' => 'coconut.conf',
-  'source' => 'http://yoursite.com/media/video.mp4',
-  'vars' => array('vid' => 1234)
-));
+$coconut = new Coconut\Client('k-api-key');
 
-if($job->{'status'} == 'processing') {
-  echo $job->{'id'};
-} else {
-  echo $job->{'error_code'};
-  echo $job->{'error_message'};
+$coconut.notification = [
+  'type' => 'http',
+  'url' => 'https://yoursite/api/coconut/webhook'
+];
+
+$coconut.storage = [
+  'service' => 's3',
+  'bucket' => 'my-bucket',
+  'region' => 'us-east-1',
+  'credentials' => {
+    'access_key_id' => 'access-key',
+    'secret_access_key' => 'secret-key'
+  }
 }
 
 ?>
 ```
 
-You can also create a job without a config file. To do that you will need to give every settings in the method parameters. Here is the exact same job but without a config file:
+## Creating a job
 
 ```php
 <?php
 
-require_once('vendor/autoload.php');
+try {
+  $job = $coconut->job->create([
+    'input' => [ 'url' => 'https://mysite/path/file.mp4' ],
+    'outputs' => [
+      'jpg:300x' => [ 'path' => '/image.jpg' ],
+      'mp4:1080p' => [ 'path' => '/1080p.mp4' ],
+      'httpstream' => [
+        'hls' => [ 'path' => 'hls/' ]
+      ]
+    ]
+  ]);
 
-$vid = 1234;
-$s3 = 's3://accesskey:secretkey@mybucket';
+  print_r($job);
 
-$job = Coconut\Job::create(array(
-  'api_key' => 'k-api-key',
-  'source' => 'http://yoursite.com/media/video.mp4',
-  'webhook' => 'http://mysite.com/webhook/coconut?videoId=' . $vid,
-  'outputs' => array(
-    'mp4' => $s3 . '/videos/video_' . $vid . '.mp4',
-    'webm' => $s3 . '/videos/video_' . $vid . '.webm',
-    'jpg:300x' => $s3 . '/previews/thumbs_#num#.jpg, number=3'
-  )
-));
+} cacth(Exception $e) {
+  echo $e->getMessage();
+}
 
 ?>
 ```
 
-Other example usage:
+## Getting information about a job
 
 ```php
-<?php
-// Getting info about a job
-$job = Coconut\Job::get(18370773);
-
-// Retrieving metadata
-Coconut\Job::getAllMetadata(18370773);
-
-// Retrieving the source file metadata only
-Coconut\Job::getMetadataFor(18370773, 'source');
-?>
+$job = $coconut->job->retrieve('OolQXaiU86NFki');
 ```
 
-Note that you can use the environment variable `COCONUT_API_KEY` to set your API key.
+## Retrieving metadata
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
+```php
+$metadata = $coconut->metadata->retrieve('OolQXaiU86NFki');
+```
 
 *Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).*
-
----
-
-* Coconut website: http://coconut.co
-* API documentation: http://coconut.co/docs
-* Contact: [support@coconut.co](mailto:support@coconut.co)
-* Twitter: [@OpenCoconut](http://twitter.com/opencoconut)
