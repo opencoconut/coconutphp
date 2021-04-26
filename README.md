@@ -52,11 +52,11 @@ $coconut.storage = [
   'service' => 's3',
   'bucket' => 'my-bucket',
   'region' => 'us-east-1',
-  'credentials' => {
+  'credentials' => [
     'access_key_id' => 'access-key',
     'secret_access_key' => 'secret-key'
-  }
-}
+  ]
+];
 
 ?>
 ```
