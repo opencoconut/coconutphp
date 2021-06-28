@@ -2,6 +2,10 @@
 
 namespace Coconut;
 
-class Error extends \Exception {}
+use Exception;
+
+class Error extends Exception
+{
+}
 
 ?>
