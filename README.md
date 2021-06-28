@@ -43,12 +43,12 @@ require_once('vendor/autoload.php');
 
 $coconut = new Coconut\Client('k-api-key');
 
-$coconut.notification = [
+$coconut->notification = [
   'type' => 'http',
   'url' => 'https://yoursite/api/coconut/webhook'
 ];
 
-$coconut.storage = [
+$coconut->storage = [
   'service' => 's3',
   'bucket' => 'my-bucket',
   'region' => 'us-east-1',
