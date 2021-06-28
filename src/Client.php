@@ -14,16 +14,16 @@ class Client
     function __construct($api_key, $config = [])
     {
         $this->api_key = $api_key;
-        if ($config["region"]) {
+        if (isset($config["region"])) {
             $this->region = $config["region"];
         }
-        if ($config["endpoint"]) {
+        if (isset($config["endpoint"])) {
             $this->endpoint = $config["endpoint"];
         }
-        if ($config["storage"]) {
+        if (isset($config["storage"])) {
             $this->storage = $config["storage"];
         }
-        if ($config["notification"]) {
+        if (isset($config["notification"])) {
             $this->notification = $config["notification"];
         }
         $this->api = new API($this);
