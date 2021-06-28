@@ -8,4 +8,3 @@ class Error extends Exception
 {
 }
 
-?>
