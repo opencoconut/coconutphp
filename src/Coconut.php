@@ -2,10 +2,9 @@
 
 namespace Coconut;
 
-class Coconut {
-
-  const VERSION = '3.0.0';
-
+class Coconut
+{
+    const VERSION = '3.0.0';
 }
 
 ?>
