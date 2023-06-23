@@ -10,6 +10,9 @@ class Client
     public $endpoint;
     public $storage;
     public $notification;
+    public $job;
+    public $api;
+    public $metadata;
     
     function __construct($api_key, $config = [])
     {
