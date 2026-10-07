@@ -11,6 +11,7 @@ class Client
     public $storage;
     public $notification;
     public $api;
+    /** @var Job */
     public $job;
     public $metadata;
 
